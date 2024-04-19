@@ -1,0 +1,33 @@
+#img1{
+    width: 400px;
+    height: 400px;
+}
+#img2{
+    width: 200px;
+    height: 200px;
+}
+#images{
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    margin:50px;
+
+}
+
+#btns{
+    margin: 50px;
+    padding: 50px;
+    display: flex;
+    gap: 100px;
+}
+button{
+    width: 100px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+#btns > div{
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+}

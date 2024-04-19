@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="images">
+        <img src="bgimg.jpeg" alt="" id="img1">
+        <img src="fgimg.jpeg" alt="" id="img2">  
+    </div>
+    <div id="btns">
+        <canvas id="merge"></canvas>
+        <img src="" alt="" id="img3">
+        <div>
+            <button onclick=merge()>click</button>
+            <button id="left" onclick=move(id)>left</button>
+            <button id="right" onclick=move(id)>right</button>
+            <button id="down" onclick=move(id)>down</button>
+            <button id="up" onclick=move(id)>up</button>
+            <button id="pdf" onclick=topdf()>to pdf</button>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script >
+        var dx=100;
+        var dy=100;
+
+        var bgimg=document.getElementById('img1');
+        var fgimg=document.getElementById('img2');
+        var newimg=document.getElementById('img3');
+
+        var canvas=document.getElementById('merge');
+        const ct=canvas.getContext('2d');
+
+        function merge(){
+            canvas.width=bgimg.width;
+            canvas.height=bgimg.height;
+            ct.drawImage(bgimg,0,0,400,400);
+            ct.drawImage(fgimg,dx,dy,100,100);
+            const mergeimgdata=canvas.toDataURL('image/jpg');
+            newimg.src=mergeimgdata;
+        }
+
+        function move(dir){
+            var size=30;
+            if(dir=='left'){
+                dx=dx-size
+                ct.drawImage(bgimg,0,0,400,400);
+                ct.drawImage(fgimg,dx,dy,100,100);
+                const mergeimgdata=canvas.toDataURL('image/jpg');
+                newimg.src=mergeimgdata;
+            }
+            else if(dir=='right'){
+                dx=dx+size
+                ct.drawImage(bgimg,0,0,400,400);
+                ct.drawImage(fgimg,dx,dy,100,100);
+                const mergeimgdata=canvas.toDataURL('image/jpg');
+                newimg.src=mergeimgdata;
+            }
+            else if(dir=='down'){
+                dy=dy+size
+                ct.drawImage(bgimg,0,0,400,400);
+                ct.drawImage(fgimg,dx,dy,100,100);
+                const mergeimgdata=canvas.toDataURL('image/jpg');
+                newimg.src=mergeimgdata;
+            }
+            else if(dir=='up'){
+                dy=dy-size
+                ct.drawImage(bgimg,0,0,400,400);
+                ct.drawImage(fgimg,dx,dy,100,100);
+                const mergeimgdata=canvas.toDataURL('image/jpg');
+                newimg.src=mergeimgdata;
+            }
+        }
+        function topdf() {
+            console.log('done')
+            const imgWidth = newimg.width;
+            const imgHeight = newimg.height;
+            const pdf = new jsPDF();
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const ratio = imgWidth / imgHeight;
+            const height = pdfHeight;
+            const width = height * ratio;
+            pdf.addImage(newimg.src, 'JPEG', (pdfWidth - width) / 2, 0, width, height);
+            pdf.save('image.pdf');
+        }
+    </script>
+</body>
+</html>
