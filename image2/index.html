@@ -5,7 +5,21 @@
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-</head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.1/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        var newiimg=document.getElementById('img3');
+        function topdf(){
+            var dataimg;
+            html2canvas(document.getElementById('img3')).then((canvas) => {
+                let baseimg=canvas.toDataURL('image/jpg');
+                let pdf=new jsPDF('p','px',[1600,1131]);
+                pdf.addImage(baseimg,'JPG',200,200,canvas.width,canvas.height);
+                pdf.save('image.pdf');
+            });
+        }
+    </script>
 <body>
     <div id="images">
         <img src="bgimg.jpeg" alt="" id="img1">
@@ -20,11 +34,10 @@
             <button id="right" onclick=move(id)>right</button>
             <button id="down" onclick=move(id)>down</button>
             <button id="up" onclick=move(id)>up</button>
-            <button id="pdf" onclick=topdf()>to pdf</button>
+            <button id="pdf" onclick="topdf()">to pdf</button>
         </div>
 
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script >
         var dx=100;
         var dy=100;
@@ -75,19 +88,6 @@
                 const mergeimgdata=canvas.toDataURL('image/jpg');
                 newimg.src=mergeimgdata;
             }
-        }
-        function topdf() {
-            console.log('done')
-            const imgWidth = newimg.width;
-            const imgHeight = newimg.height;
-            const pdf = new jsPDF();
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
-            const ratio = imgWidth / imgHeight;
-            const height = pdfHeight;
-            const width = height * ratio;
-            pdf.addImage(newimg.src, 'JPEG', (pdfWidth - width) / 2, 0, width, height);
-            pdf.save('image.pdf');
         }
     </script>
 </body>

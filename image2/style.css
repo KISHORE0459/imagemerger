@@ -31,3 +31,7 @@ button{
     gap: 30px;
     flex-direction: column;
 }
+canvas{
+    height: 0px;
+    width: 0px;
+}
